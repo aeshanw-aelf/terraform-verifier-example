@@ -37,3 +37,8 @@ crash.log
 
 # Ignore .terraform/providers directory (Terraform 0.15+)
 .terraform/providers/
+
+# Ignore other infra-generated files
+/mongodb
+/redis
+/did-verfier-api/Logs/
