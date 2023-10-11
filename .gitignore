@@ -41,4 +41,5 @@ crash.log
 # Ignore other infra-generated files
 /mongodb
 /redis
-/did-verfier-api/Logs/
+did-verifier-silo/Logs/*
+did-verifier-api/Logs/*

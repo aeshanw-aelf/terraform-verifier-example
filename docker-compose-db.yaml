@@ -1,0 +1,41 @@
+version: '3.5'
+services:
+ redis-server:
+  image: redis:6.2.8
+  restart: always
+  container_name: redis
+  networks:
+   verifier:
+    aliases:
+     - redis-server
+     - redis
+  ports:
+   - "6379:6379"
+  privileged: true
+  volumes:
+   - ./redis/data:/data
+   - ./redis/conf/redis.conf:/etc/redis/redis.conf
+  command: ["redis-server","/etc/redis/redis.conf"]
+
+ mongodb-server:
+  image: mongo:latest
+  restart: always
+  container_name: mongodb
+  hostname: mongodb
+  networks:
+   verifier:
+    aliases:
+     - mongodb-server
+     - mongodb
+  ports:
+   - "27017:27017"
+  environment:
+   MONGO_INITDB_ROOT_USERNAME: admin
+   MONGO_INITDB_ROOT_PASSWORD: admin123456
+  privileged: true
+  volumes:
+   - ./mongodb/datadb:/data/db
+
+networks:
+ verifier:
+  driver: bridge

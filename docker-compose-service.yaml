@@ -1,0 +1,41 @@
+version: '3.5'
+services:
+ did-verifier-silo:
+  image: portkeydid/did-verifier-silo:mainnet-latest
+  restart: always
+  container_name: did-verifier-silo
+  networks:
+   verifier:
+    aliases:
+     - did-verifier-silo
+  ports:
+   - "9010:9010"
+   - "10010:10010"
+   - "20010:20010"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - ./did-verifier-silo/appsettings.json:/app/appsettings.json:rw
+   - ./did-verifier-silo/Logs:/app/Logs:rw
+  privileged: true
+
+ did-verifier-api:
+  image: portkeydid/did-verifier-api:mainnet-latest
+  restart: always
+  container_name: did-verifier-api
+  networks:
+   verifier:
+    aliases:
+     - did-verifier-api
+  ports:
+   - "8010:8010"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - ./did-verifier-api/appsettings.json:/app/appsettings.json:rw
+   - ./did-verifier-api/Logs:/app/Logs:rw
+  depends_on:
+   - did-verifier-silo
+  privileged: true
+
+networks:
+ verifier:
+  driver: bridge
